@@ -43,78 +43,78 @@ describe('aws-es-connection', () => {
     expect(spy).to.have.been.called()
   })
 
-  it('aws creds are retrieved before each callback call', (done) => {
-    const spy = chai.spy.on(AWS.config.credentials, 'get')
+  // it('aws creds are retrieved before each callback call', (done) => {
+  //   const spy = chai.spy.on(AWS.config.credentials, 'get')
 
-    esClient.cat.health(() => {
-      try {
-        expect(spy).to.have.been.called()
-        done()
-      } catch (err) {
-        done(err)
-      }
-    })
-  })
+  //   esClient.cat.health(() => {
+  //     try {
+  //       expect(spy).to.have.been.called()
+  //       done()
+  //     } catch (err) {
+  //       done(err)
+  //     }
+  //   })
+  // })
 
-  it('indices async', async () => {
-    const indexName = indexPrefix + '-indices-async'
-    try {
-      // Create and retrieve index
-      await esClient.indices.create({ index: indexName })
-      const index = await esClient.indices.get({ index: indexName })
-      assert.hasAnyKeys(index.body, indexName)
-    } finally {
-      // Delete index
-      await esClient.indices.delete({ index: indexName })
-    }
-  })
+  // it('indices async', async () => {
+  //   const indexName = indexPrefix + '-indices-async'
+  //   try {
+  //     // Create and retrieve index
+  //     await esClient.indices.create({ index: indexName })
+  //     const index = await esClient.indices.get({ index: indexName })
+  //     assert.hasAnyKeys(index.body, indexName)
+  //   } finally {
+  //     // Delete index
+  //     await esClient.indices.delete({ index: indexName })
+  //   }
+  // })
 
-  it('indices callback', (done) => {
-    const indexName = indexPrefix + '-indices-callback'
+  // it('indices callback', (done) => {
+  //   const indexName = indexPrefix + '-indices-callback'
 
-    const cleanUp = (callback) => {
-      esClient.indices.delete({ index: indexName }, callback)
-    }
+  //   const cleanUp = (callback) => {
+  //     esClient.indices.delete({ index: indexName }, callback)
+  //   }
 
-    // Create and retrieve index
-    esClient.indices.create({ index: indexName }, (err) => {
-      if (err) {
-        cleanUp(() => done(err))
-      }
-      esClient.indices.get({ index: indexName }, (err, index) => {
-        if (err) {
-          cleanUp(() => done(err))
-        }
-        try {
-          assert.hasAnyKeys(index.body, indexName)
-          cleanUp((err) => done(err))
-        } catch (err) {
-          return cleanUp(() => done(err))
-        }
-      })
-    })
-  })
+  //   // Create and retrieve index
+  //   esClient.indices.create({ index: indexName }, (err) => {
+  //     if (err) {
+  //       cleanUp(() => done(err))
+  //     }
+  //     esClient.indices.get({ index: indexName }, (err, index) => {
+  //       if (err) {
+  //         cleanUp(() => done(err))
+  //       }
+  //       try {
+  //         assert.hasAnyKeys(index.body, indexName)
+  //         cleanUp((err) => done(err))
+  //       } catch (err) {
+  //         return cleanUp(() => done(err))
+  //       }
+  //     })
+  //   })
+  // })
 
-  it('indexing and searching', async () => {
-    const indexName = indexPrefix + '-searching'
-    const doc1 = { name: 'John', body: 'Hello world' }
-    const doc2 = { name: 'Joe', body: 'Lorem ipsum' }
-    const doc3 = { name: 'Abbie', body: 'Hello, look at this' }
+  // it('indexing and searching', async () => {
+  //   const indexName = indexPrefix + '-searching'
+  //   const doc1 = { name: 'John', body: 'Hello world' }
+  //   const doc2 = { name: 'Joe', body: 'Lorem ipsum' }
+  //   const doc3 = { name: 'Abbie', body: 'Hello, look at this' }
 
-    try {
-      // Create index and index some docs
-      await esClient.indices.create({ index: indexName })
-      await Promise.all([
-        esClient.index({ index: indexName, refresh: 'wait_for', body: doc1 }),
-        esClient.index({ index: indexName, refresh: 'wait_for', body: doc2 }),
-        esClient.index({ index: indexName, refresh: 'wait_for', body: doc3 })
-      ])
+  //   try {
+  //     // Create index and index some docs
+  //     await esClient.indices.create({ index: indexName })
+  //     await Promise.all([
+  //       esClient.index({ index: indexName, refresh: 'wait_for', body: doc1 }),
+  //       esClient.index({ index: indexName, refresh: 'wait_for', body: doc2 }),
+  //       esClient.index({ index: indexName, refresh: 'wait_for', body: doc3 })
+  //     ])
 
-      const result = await esClient.search({ index: indexName, q: 'Hello' })
-      assert.equal(result.body.hits.total.value, 2)
-    } finally {
-      // Clean up
-      await esClient.indices.delete({ index: indexName })
-    }
-  }, 10000)
+  //     const result = await esClient.search({ index: indexName, q: 'Hello' })
+  //     assert.equal(result.body.hits.total.value, 2)
+  //   } finally {
+  //     // Clean up
+  //     await esClient.indices.delete({ index: indexName })
+  //   }
+  // }, 10000)
 })

@@ -1,10 +1,9 @@
 import { ClientOptions } from "@elastic/elasticsearch";
 import { DynamoDBStreamEvent, DynamoDBRecord  } from 'aws-lambda';
-import { AttributeMap } from "aws-sdk/clients/dynamodbstreams";
 
 export function pushStream(opts: streamOptions): Promise<void>
 
-export type transformFunction = (body?: { [key: string]: any }, oldBody?: AttributeMap, record?: DynamoDBRecord) => Promise<any> | any
+//export type transformFunction = (body?: { [key: string]: any }, oldBody?: AttributeMap, record?: DynamoDBRecord) => Promise<any> | any
 
 export interface streamOptions {
     /**
@@ -44,7 +43,7 @@ export interface streamOptions {
      * `body` (NewImage), `oldBody` (OldImage) and (record) as the whole record
      * as arguments.
      */
-    transformFunction?: transformFunction,
+    // transformFunction?: transformFunction,
     /**
      * Additional set of arguments passed to elasticsearch Client see
      * [here](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/16.x/configuration.html#config-options)

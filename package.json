@@ -38,7 +38,6 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.83",
     "aws-lambda": "^1.0.6",
-    "aws-sdk": "2.*.*",
     "chai": "^4.3.4",
     "chai-spies": "^1.0.0",
     "eslint": "^7.31.0",
@@ -53,12 +52,14 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
+    "@aws-sdk/client-elasticsearch-service": "^3.352.0",
+    "@aws-sdk/client-sts": "^3.352.0",
+    "@aws-sdk/credential-provider-ini": "^3.352.0",
+    "@aws-sdk/property-provider": "^3.347.0",
+    "@aws-sdk/util-dynamodb": "^3.352.0",
     "@elastic/elasticsearch": "7.13.0",
     "aws4": "1.11.0",
     "lodash.flatmap": "4.5.0"
-  },
-  "peerDependencies": {
-    "aws-sdk": "2.*.*"
   },
   "typings": "./src/index.d.ts"
 }

@@ -1,6 +1,5 @@
-const AWS = require('aws-sdk')
 const flatMap = require('lodash.flatmap')
-const converter = AWS.DynamoDB.Converter.unmarshall
+const { unmarshall } = require("@aws-sdk/util-dynamodb");
 const elastic = require('./utils/es-wrapper')
 const getTableNameFromARN = require('./utils/table-name-from-arn')
 const { removeEventData } = require('./utils/index')
@@ -58,7 +57,7 @@ exports.pushStream = async (
   const toUpsert = []
 
   for (const record of event.Records) {
-    const keys = converter(record.dynamodb.Keys)
+    const keys = unmarshall(record.dynamodb.Keys)
     const id = Object.values(keys).reduce((acc, curr) => acc.concat(curr), '')
 
     switch (record.eventName) {
@@ -68,8 +67,8 @@ exports.pushStream = async (
       }
       case 'MODIFY':
       case 'INSERT': {
-        let body = converter(record.dynamodb.NewImage)
-        const oldBody = record.dynamodb.OldImage ? converter(record.dynamodb.OldImage) : undefined
+        let body = unmarshall(record.dynamodb.NewImage)
+        const oldBody = record.dynamodb.OldImage ? unmarshall(record.dynamodb.OldImage) : undefined
         body = removeEventData(body)
         if (transformFunction) {
           body = await Promise.resolve(transformFunction(body, oldBody, record))

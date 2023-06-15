@@ -1,4 +1,3 @@
-const { config } = require('aws-sdk/global')
 const { sign } = require('aws4')
 const { Connection, Transport } = require('@elastic/elasticsearch')
 
