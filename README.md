@@ -19,6 +19,8 @@
 ```
 # DynamoDB --> Stream --> Elasticsearch
 
+update package for awsv3 
+
 The missing blueprint for AWS Lambda, which reads stream from AWS DynamoDB and writes it to Elasticsearch.
 
 Whenever data is changed (modified, removed or inserted) in DynamoDB one can use AWS Lambda function to capture this change and update Elasticsearch machine immediately. Further reading:
@@ -28,11 +30,11 @@ Whenever data is changed (modified, removed or inserted) in DynamoDB one can use
 
 Install:
 ```bash
-npm i dynamodb-stream-elasticsearch 
+npm i dynamodb-stream-elasticsearch-v3 
 ```
 Use it in your lambda:
 ```javascript
-const { pushStream } = require('dynamodb-stream-elasticsearch');
+const { pushStream } = require('dynamodb-stream-elasticsearch-v3');
 
 const { ES_ENDPOINT, INDEX } = process.env;
 
